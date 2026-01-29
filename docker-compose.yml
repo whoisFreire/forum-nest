@@ -1,13 +1,13 @@
 services:
   postgres:
-    container_name: postgres-clean-nest
+    container_name: postgres-forum-nest
     image: postgres
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: clean-nest
+      POSTGRES_DB: forum-nest
       PGDATA: /data/postgres
     volumes:
       - ./data/pg:/data/postgres
