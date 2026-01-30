@@ -8,6 +8,7 @@ export default [
     'node_modules',
   ]), {
     rules: {
+      'no-undef': 'off',
       'no-useless-constructor': 'off',
     }
   }
