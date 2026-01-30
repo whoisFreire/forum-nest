@@ -9,11 +9,15 @@ import { generateUniqueDatabaseURL } from './utils/generate-unique-database-url'
 const schemaId = randomUUID()
 const databaseURL = generateUniqueDatabaseURL(schemaId)
 
-const adapter = new PrismaPg({ connectionString: databaseURL })
-const prisma = new PrismaClient({ adapter })
+let prisma: PrismaClient
 
 beforeAll(async () => {
   process.env.DATABASE_URL = databaseURL
+  process.env.DATABASE_SCHEMA = schemaId
+
+  const adapter = new PrismaPg({ connectionString: databaseURL })
+  prisma = new PrismaClient({ adapter })
+
   execSync('npx prisma migrate deploy')
 })
 
