@@ -3,6 +3,8 @@ import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import z from 'zod'
 import { PrismaService } from '../prisma/prisma.service'
 import { JwtAuthGuard } from '../auth/jwt-auth.guard'
+import { CurrentUser } from '../auth/current-user.decorator'
+import type { UserPayload } from '../auth/jwt.strategy'
 
 const createQuestionBodySchema = z.object({
   title: z.string(),
@@ -18,7 +20,7 @@ export class CreateQuestionController {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Post()
-  async handle(@Body() body: CreateQuestionBody) {
+  async handle(@CurrentUser() user: UserPayload, @Body() body: CreateQuestionBody) {
     return { body }
   }
 }
