@@ -1,10 +1,10 @@
 import 'dotenv/config'
 
-import { PrismaClient } from '@/infra/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { generateUniqueDatabaseURL } from './utils/generate-unique-database-url'
+import { PrismaClient } from 'prisma/generated/prisma/client'
 
 const schemaId = randomUUID()
 const databaseURL = generateUniqueDatabaseURL(schemaId)
