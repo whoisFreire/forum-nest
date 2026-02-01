@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
-import { Env } from '../env'
 import { JwtStrategy } from './jwt.strategy'
 
 import { PrismaService } from '../database/prisma/prisma.service'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './jwt-auth.guard'
+import { EnvService } from '../env/env.service'
+import { EnvModule } from '../env/env.module'
 
 @Module({
   imports: [
     PassportModule,
     JwtModule.registerAsync({
-      inject: [ ConfigService ],
+      inject: [ EnvService ],
+      imports: [ EnvModule ],
       global: true,
-      useFactory(config: ConfigService<Env, true>) {
-        const privateKey = Buffer.from(config.get('JWT_PRIVATE_KEY', { infer: true }), 'base64')
-        const publicKey = Buffer.from(config.get('JWT_PUBLIC_KEY', { infer: true }), 'base64')
+      useFactory(envService: EnvService) {
+        const privateKey = Buffer.from(envService.get('JWT_PRIVATE_KEY'), 'base64')
+        const publicKey = Buffer.from(envService.get('JWT_PUBLIC_KEY'), 'base64')
         return {
           privateKey,
           publicKey,
@@ -30,6 +31,7 @@ import { JwtAuthGuard } from './jwt-auth.guard'
   providers: [
     PrismaService,
     JwtStrategy,
+    EnvService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
