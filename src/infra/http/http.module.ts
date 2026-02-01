@@ -22,6 +22,10 @@ import { AuthenticateController } from './controllers/authenticate.controller'
     FetchRecentQuestionsController,
     AuthenticateController
   ],
-  providers: [ CreateQuestionUseCase, FetchRecentQuestionsUseCase, RegisterStudentUseCase, AuthenticateStudentUseCase ],
+  providers: [
+    CreateQuestionUseCase,
+    FetchRecentQuestionsUseCase,
+    RegisterStudentUseCase,
+    AuthenticateStudentUseCase ],
 })
 export class HttpModule {}
